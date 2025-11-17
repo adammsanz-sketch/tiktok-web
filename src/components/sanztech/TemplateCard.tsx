@@ -27,6 +27,7 @@ import {
 import UploadTemplateForm from './UploadTemplateForm';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { iconMap } from '@/lib/templates';
 
 
 export default function TemplateCard({ template }: { template: Template }) {
@@ -109,12 +110,15 @@ export default function TemplateCard({ template }: { template: Template }) {
       </CardHeader>
       <CardContent className="flex-grow">
         <ul className="space-y-2 text-sm text-muted-foreground">
-          {template.features.map((feature, index) => (
-            <li key={index} className="flex items-center">
-              <feature.icon className="w-4 h-4 mr-2 text-primary" />
-              <span>{feature.text}</span>
-            </li>
-          ))}
+          {template.features.map((feature, index) => {
+            const Icon = iconMap[feature.icon];
+            return (
+              <li key={index} className="flex items-center">
+                {Icon && <Icon className="w-4 h-4 mr-2 text-primary" />}
+                <span>{feature.text}</span>
+              </li>
+            );
+          })}
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col items-stretch space-y-3 pt-4">

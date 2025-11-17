@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import TemplateCard from './TemplateCard';
-import { templates, type Template } from '@/lib/templates';
+import { type Template } from '@/lib/templates';
 import { Button } from '@/components/ui/button';
 import { Upload } from 'lucide-react';
 import {
@@ -13,22 +13,26 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import UploadTemplateForm from './UploadTemplateForm';
+import { useCollection, useFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
 
 type Filter = 'All' | 'Web App' | 'Mobile';
 
 export default function TemplateShowcase() {
   const [filter, setFilter] = useState<Filter>('All');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { firestore } = useFirebase();
+  const { data: templates, isLoading } = useCollection<Template>(
+    firestore ? collection(firestore, 'templates') : null
+  );
 
-  const filteredTemplates = templates.filter(template => {
+  const filteredTemplates = templates?.filter(template => {
     if (filter === 'All') return true;
     return template.category === filter;
   });
 
   const handleTemplateUploaded = () => {
     setIsDialogOpen(false);
-    // Here you would typically refresh the list of templates
-    // For now, we just close the dialog
   };
 
   return (
@@ -74,7 +78,8 @@ export default function TemplateShowcase() {
           </Dialog>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredTemplates.map(template => (
+          {isLoading && <p>Loading templates...</p>}
+          {filteredTemplates?.map(template => (
             <TemplateCard key={template.id} template={template} />
           ))}
         </div>
