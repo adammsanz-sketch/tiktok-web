@@ -1,0 +1,173 @@
+{
+  "entities": {
+    "Template": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Template",
+      "type": "object",
+      "description": "Represents a template available in the Sanztech Template Vault.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Template entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the template."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the template's functionality and benefits."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the template."
+        },
+        "rating": {
+          "type": "number",
+          "description": "The rating of the template."
+        },
+        "webAppTemplate": {
+          "type": "boolean",
+          "description": "Is this a web app template?"
+        },
+        "mobileTemplate": {
+          "type": "boolean",
+          "description": "Is this a mobile template?"
+        },
+        "affiliateToolId": {
+          "type": "string",
+          "description": "Reference to AffiliateTool. (Relationship: AffiliateTool 1:N Template). Indicates the required affiliate tool for the template."
+        },
+        "templateCardId": {
+          "type": "string",
+          "description": "Reference to TemplateCard. (Relationship: TemplateCard 1:N Template)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "price",
+        "rating",
+        "webAppTemplate",
+        "mobileTemplate",
+        "affiliateToolId",
+        "templateCardId"
+      ]
+    },
+    "AffiliateTool": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AffiliateTool",
+      "type": "object",
+      "description": "Represents an affiliate tool that is required by certain templates.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AffiliateTool entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the affiliate tool (e.g., Pipedrive)."
+        },
+        "affiliateLink": {
+          "type": "string",
+          "description": "The affiliate link for the tool."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "affiliateLink"
+      ]
+    },
+    "TemplateCard": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TemplateCard",
+      "type": "object",
+      "description": "Represents the visual card displayed in the template grid layout.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the TemplateCard entity."
+        },
+        "templateName": {
+          "type": "string",
+          "description": "Name of the template displayed on the card."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the template to be displayed on the card."
+        },
+        "rating": {
+          "type": "number",
+          "description": "Rating of the template to be displayed on the card."
+        }
+      },
+      "required": [
+        "id",
+        "templateName",
+        "price",
+        "rating"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/templates/{templateId}",
+        "definition": {
+          "entityName": "template",
+          "schema": {
+            "$ref": "#/backend/entities/Template"
+          },
+          "description": "Stores template entities. Each document represents a template available in the Sanztech Template Vault. The collection does not require user authentication.",
+          "params": [
+            {
+              "name": "templateId",
+              "description": "The unique identifier for the template document."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/affiliate_tools/{affiliateToolId}",
+        "definition": {
+          "entityName": "affiliateTool",
+          "schema": {
+            "$ref": "#/backend/entities/AffiliateTool"
+          },
+          "description": "Stores affiliate tool entities. Each document represents an affiliate tool required by certain templates. The collection does not require user authentication.",
+          "params": [
+            {
+              "name": "affiliateToolId",
+              "description": "The unique identifier for the affiliate tool document."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/template_cards/{templateCardId}",
+        "definition": {
+          "entityName": "templateCard",
+          "schema": {
+            "$ref": "#/backend/entities/TemplateCard"
+          },
+          "description": "Stores template card entities. Each document represents a visual card displayed in the template grid layout. The collection does not require user authentication.",
+          "params": [
+            {
+              "name": "templateCardId",
+              "description": "The unique identifier for the template card document."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to store templates, affiliate tools, and template cards for the Sanztech Template Vault application. The primary focus is on creating a flat structure that avoids hierarchical authorization dependencies, making security rules straightforward and efficient. This is achieved by storing the AffiliateTool and TemplateCard data in top-level collections, allowing direct access without needing to traverse nested paths. This approach promotes simplicity and avoids complex authorization logic. Since templates do not need user authentication, there is no need to denormalize user roles or permissions. Data segregation ensures each collection has a distinct security posture, simplifying rules further. List operations (QAPs) are inherently secure because each collection can have its own security rules applied directly, preventing unintended data exposure."
+  }
+}
