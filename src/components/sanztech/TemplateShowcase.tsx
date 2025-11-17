@@ -5,16 +5,31 @@ import TemplateCard from './TemplateCard';
 import { templates, type Template } from '@/lib/templates';
 import { Button } from '@/components/ui/button';
 import { Upload } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import UploadTemplateForm from './UploadTemplateForm';
 
 type Filter = 'All' | 'Web App' | 'Mobile';
 
 export default function TemplateShowcase() {
   const [filter, setFilter] = useState<Filter>('All');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const filteredTemplates = templates.filter(template => {
     if (filter === 'All') return true;
     return template.category === filter;
   });
+
+  const handleTemplateUploaded = () => {
+    setIsDialogOpen(false);
+    // Here you would typically refresh the list of templates
+    // For now, we just close the dialog
+  };
 
   return (
     <section id="templates" className="py-20 md:py-28">
@@ -43,10 +58,20 @@ export default function TemplateShowcase() {
               Mobile Templates
             </Button>
           </div>
-          <Button className="rounded-full">
-            <Upload className="mr-2 h-4 w-4" />
-            Upload New Template
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="rounded-full">
+                <Upload className="mr-2 h-4 w-4" />
+                Upload New Template
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Upload New Template</DialogTitle>
+              </DialogHeader>
+              <UploadTemplateForm onTemplateUploaded={handleTemplateUploaded} />
+            </DialogContent>
+          </Dialog>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredTemplates.map(template => (
