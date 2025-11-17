@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import type { Template } from '@/lib/templates';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -34,31 +35,51 @@ const formSchema = z.object({
   features: z.string().min(10, {
     message: 'Please list at least one feature, separated by commas.',
   }),
-  image: z.any().refine(files => files?.length === 1, 'Image is required.'),
+  image: z.any().optional(),
 });
 
 type UploadTemplateFormValues = z.infer<typeof formSchema>;
 
-export default function UploadTemplateForm({ onTemplateUploaded }: { onTemplateUploaded: () => void }) {
+interface UploadTemplateFormProps {
+  onTemplateUploaded: () => void;
+  template?: Template;
+}
+
+export default function UploadTemplateForm({ onTemplateUploaded, template }: UploadTemplateFormProps) {
   const { toast } = useToast();
+  const isEditMode = !!template;
+
   const form = useForm<UploadTemplateFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      price: 0,
-      category: 'Web App',
-      features: '',
+      name: template?.name || '',
+      price: template?.price || 0,
+      category: template?.category || 'Web App',
+      features: template?.features.map(f => f.text).join(', ') || '',
     },
   });
+  
+  // Conditionally make image required only when not in edit mode
+  if (!isEditMode) {
+    formSchema.extend({
+      image: z.any().refine(files => files?.length === 1, 'Image is required.'),
+    })
+  }
+
 
   function onSubmit(values: UploadTemplateFormValues) {
-    // Here you would handle the actual upload logic.
-    // This includes uploading the image and saving the template data.
     console.log(values);
-    toast({
-      title: 'Template Uploaded!',
-      description: `${values.name} has been successfully uploaded.`,
-    });
+    if (isEditMode) {
+      toast({
+        title: 'Template Updated!',
+        description: `${values.name} has been successfully updated.`,
+      });
+    } else {
+      toast({
+        title: 'Template Uploaded!',
+        description: `${values.name} has been successfully uploaded.`,
+      });
+    }
     onTemplateUploaded();
   }
   
@@ -74,7 +95,7 @@ export default function UploadTemplateForm({ onTemplateUploaded }: { onTemplateU
             <FormItem>
               <FormLabel>Template Name</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., Sales CRM Pipeline" {...field} />
+                <Input placeholder="e.g., Sales CRM Pipeline" {...field} className="text-sm" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,7 +108,7 @@ export default function UploadTemplateForm({ onTemplateUploaded }: { onTemplateU
             <FormItem>
               <FormLabel>Price</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="49.99" {...field} />
+                <Input type="number" placeholder="49.99" {...field} className="text-sm" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,7 +122,7 @@ export default function UploadTemplateForm({ onTemplateUploaded }: { onTemplateU
               <FormLabel>Category</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="text-sm">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                 </FormControl>
@@ -124,26 +145,29 @@ export default function UploadTemplateForm({ onTemplateUploaded }: { onTemplateU
                 <Textarea
                   placeholder="Enter features, separated by commas (e.g., Automated Follow-ups, Pipedrive Integrated)"
                   {...field}
+                  className="text-sm"
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Template Image</FormLabel>
-              <FormControl>
-                <Input type="file" accept="image/*" {...fileRef} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Upload Template</Button>
+        {!isEditMode && (
+          <FormField
+            control={form.control}
+            name="image"
+            render={() => (
+              <FormItem>
+                <FormLabel>Template Image</FormLabel>
+                <FormControl>
+                  <Input type="file" accept="image/*" {...fileRef} className="text-sm" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        <Button type="submit">{isEditMode ? 'Save Changes' : 'Upload Template'}</Button>
       </form>
     </Form>
   );

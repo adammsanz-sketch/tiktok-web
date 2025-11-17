@@ -6,10 +6,47 @@ import { Star, Edit, Trash2 } from 'lucide-react';
 import type { Template } from '@/lib/templates';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import UploadTemplateForm from './UploadTemplateForm';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+
 
 export default function TemplateCard({ template }: { template: Template }) {
   const image = PlaceHolderImages.find(img => img.id === template.imageId);
   const isAdmin = true; // Placeholder for admin check
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleTemplateUpdated = () => {
+    setIsEditDialogOpen(false);
+  };
+
+  const handleDelete = () => {
+    console.log(`Deleting template: ${template.name}`);
+    toast({
+      title: 'Template Deleted!',
+      description: `${template.name} has been successfully deleted.`,
+      variant: 'destructive'
+    });
+  }
 
   return (
     <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
@@ -24,12 +61,40 @@ export default function TemplateCard({ template }: { template: Template }) {
         />
         {isAdmin && (
           <div className="absolute top-2 right-2 flex space-x-2">
-            <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full">
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button size="icon" variant="destructive" className="h-8 w-8 rounded-full">
-              <Trash2 className="h-4 w-4" />
-            </Button>
+            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full">
+                  <Edit className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Edit Template</DialogTitle>
+                </DialogHeader>
+                <UploadTemplateForm onTemplateUploaded={handleTemplateUpdated} template={template} />
+              </DialogContent>
+            </Dialog>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size="icon" variant="destructive" className="h-8 w-8 rounded-full">
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the
+                    template &quot;{template.name}&quot;.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         )}
       </div>
