@@ -7,9 +7,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
-  { href: '/dashboard/sales', label: 'Sales', icon: BarChart2 },
-  { href: '/dashboard/customers', label: 'Customers', icon: Users },
-  { href: '/dashboard/store', label: 'Store', icon: ShoppingCart },
 ];
 
 export default function SidebarContent() {
