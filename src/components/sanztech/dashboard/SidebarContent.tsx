@@ -41,20 +41,20 @@ export default function SidebarContent() {
           <SidebarMenuItem>
             <Link href="/support" passHref>
               <SidebarMenuButton asChild isActive={pathname === '/support'}>
-                <a>
+                <span>
                   <LifeBuoy className="h-5 w-5" />
                   <span>Support</span>
-                </a>
+                </span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/settings" passHref>
               <SidebarMenuButton asChild isActive={pathname === '/settings'}>
-                <a>
+                <span>
                   <Settings className="h-5 w-5" />
                   <span>Settings</span>
-                </a>
+                </span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
