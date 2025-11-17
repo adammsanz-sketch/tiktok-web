@@ -1,5 +1,5 @@
 'use client';
-import { SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter } from '@/components/ui/sidebar';
+import { SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarTrigger } from '@/components/ui/sidebar';
 import { Gem, Home, ShoppingCart, Users, BarChart2, Settings, LifeBuoy } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -17,19 +17,22 @@ export default function SidebarContent() {
   return (
     <>
       <SidebarHeader>
-        <div className="flex items-center space-x-2">
-          <Gem className="h-6 w-6 text-primary" />
-          <span className="font-bold text-lg">Sanztech</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Gem className="h-6 w-6 text-primary" />
+            <span className="font-bold text-lg group-data-[collapsible=icon]:hidden">Sanztech</span>
+          </div>
+          <SidebarTrigger />
         </div>
       </SidebarHeader>
       <SidebarMenu>
         {menuItems.map(item => (
           <SidebarMenuItem key={item.label}>
             <Link href={item.href} passHref>
-              <SidebarMenuButton asChild isActive={pathname === item.href}>
+              <SidebarMenuButton asChild isActive={pathname === item.href} tooltip={item.label}>
                 <span>
                   <item.icon className="h-5 w-5" />
-                  <span>{item.label}</span>
+                  <span className="group-data-[collapsible=icon]:hidden">{item.label}</span>
                 </span>
               </SidebarMenuButton>
             </Link>
@@ -40,20 +43,20 @@ export default function SidebarContent() {
         <SidebarMenu>
           <SidebarMenuItem>
             <Link href="/support" passHref>
-              <SidebarMenuButton asChild isActive={pathname === '/support'}>
+              <SidebarMenuButton asChild isActive={pathname === '/support'} tooltip="Support">
                 <span>
                   <LifeBuoy className="h-5 w-5" />
-                  <span>Support</span>
+                  <span className="group-data-[collapsible=icon]:hidden">Support</span>
                 </span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/settings" passHref>
-              <SidebarMenuButton asChild isActive={pathname === '/settings'}>
+              <SidebarMenuButton asChild isActive={pathname === '/settings'} tooltip="Settings">
                 <span>
                   <Settings className="h-5 w-5" />
-                  <span>Settings</span>
+                  <span className="group-data-[collapsible=icon]:hidden">Settings</span>
                 </span>
               </SidebarMenuButton>
             </Link>
@@ -65,7 +68,7 @@ export default function SidebarContent() {
                 <AvatarImage src="https://picsum.photos/seed/admin/40/40" data-ai-hint="admin avatar" />
                 <AvatarFallback>A</AvatarFallback>
               </Avatar>
-              <div>
+              <div className="group-data-[collapsible=icon]:hidden">
                 <p className="font-semibold text-sm">Admin</p>
                 <p className="text-xs text-muted-foreground">admin@sanztech.com</p>
               </div>
