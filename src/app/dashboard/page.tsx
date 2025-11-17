@@ -1,14 +1,57 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import {
+  DollarSign,
+  Users,
+  CreditCard,
+  Activity,
+} from 'lucide-react';
+import StatCard from '@/components/sanztech/dashboard/StatCard';
+import SalesChart from '@/components/sanztech/dashboard/SalesChart';
+import CustomerChart from '@/components/sanztech/dashboard/CustomerChart';
+import RecentSales from '@/components/sanztech/dashboard/RecentSales';
+import { salesData, customerData, recentSales } from '@/lib/dashboard-data';
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] bg-background text-foreground">
-      <h1 className="text-4xl font-bold mb-4">My Workflow</h1>
-      <p className="text-lg text-muted-foreground mb-8">This is your workflow page. You can customize it as you like.</p>
-      <Button asChild>
-        <Link href="/">Go back to Home</Link>
-      </Button>
-    </div>
-  )
+    <>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Total Revenue"
+          value="$45,231.89"
+          icon={DollarSign}
+          trend="+20.1% from last month"
+          trendDirection="up"
+        />
+        <StatCard
+          title="Subscriptions"
+          value="+2350"
+          icon={Users}
+          trend="+180.1% from last month"
+          trendDirection="up"
+        />
+        <StatCard
+          title="Sales"
+          value="+12,234"
+          icon={CreditCard}
+          trend="+19% from last month"
+          trendDirection="up"
+        />
+        <StatCard
+          title="Active Now"
+          value="+573"
+          icon={Activity}
+          trend="+201 since last hour"
+          trendDirection="down"
+        />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <SalesChart data={salesData} />
+        <CustomerChart data={customerData} />
+      </div>
+       <div className="mt-4">
+          <RecentSales sales={recentSales} />
+        </div>
+    </>
+  );
 }

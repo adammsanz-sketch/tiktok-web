@@ -1,5 +1,4 @@
-import { Sidebar, SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
-import { Home, ShoppingCart, Users, BarChart2 } from 'lucide-react';
+import { Sidebar, SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import SidebarContent from '@/components/sanztech/dashboard/SidebarContent';
 import Header from '@/components/sanztech/dashboard/Header';
 
