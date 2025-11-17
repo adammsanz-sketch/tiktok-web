@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "TPL001_image",
+      "description": "Sales CRM Pipeline template image",
+      "imageUrl": "https://images.unsplash.com/photo-1759536430218-7053ccf40fe9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGFzaGJvYXJkJTIwY2hhcnR8ZW58MHx8fHwxNzYzMzI2MDkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dashboard chart"
+    },
+    {
+      "id": "TPL002_image",
+      "description": "E-commerce Inventory template image",
+      "imageUrl": "https://images.unsplash.com/photo-1674027392851-7b34f21b07ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxvbmxpbmUlMjBzdG9yZXxlbnwwfHx8fDE3NjMzNDgwODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "online store"
+    },
+    {
+      "id": "TPL003_image",
+      "description": "Mobile Task Manager template image",
+      "imageUrl": "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYzMzQ4MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mobile app"
+    },
+    {
+      "id": "TPL004_image",
+      "description": "Social Media Scheduler template image",
+      "imageUrl": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzb2NpYWwlMjBtZWRpYXxlbnwwfHx8fDE3NjMzODc4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "social media"
+    },
+    {
+      "id": "TPL005_image",
+      "description": "Mobile Fitness Tracker template image",
+      "imageUrl": "https://images.unsplash.com/photo-1557935728-e6d1eaabe558?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmaXRuZXNzJTIwdHJhY2tlcnxlbnwwfHx8fDE3NjMzNTM4OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fitness tracker"
+    },
+    {
+      "id": "TPL006_image",
+      "description": "Project Management Suite template image",
+      "imageUrl": "https://images.unsplash.com/photo-1686061592689-312bbfb5c055?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW50dCUyMGNoYXJ0fGVufDB8fHx8MTc2MzM1NTM3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gantt chart"
+    }
+  ]
 }
