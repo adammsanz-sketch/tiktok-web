@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import UploadTemplateForm from './UploadTemplateForm';
-import { useCollection, useFirebase } from '@/firebase';
+import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 
 type Filter = 'All' | 'Web App' | 'Mobile';
@@ -22,9 +22,13 @@ export default function TemplateShowcase() {
   const [filter, setFilter] = useState<Filter>('All');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { firestore } = useFirebase();
-  const { data: templates, isLoading } = useCollection<Template>(
-    firestore ? collection(firestore, 'templates') : null
+
+  const templatesCollection = useMemoFirebase(
+    () => (firestore ? collection(firestore, 'templates') : null),
+    [firestore]
   );
+  const { data: templates, isLoading } = useCollection<Template>(templatesCollection);
+
 
   const filteredTemplates = templates?.filter(template => {
     if (filter === 'All') return true;
