@@ -1,19 +1,20 @@
-import Header from '@/components/sanztech/Header';
-import HeroSection from '@/components/sanztech/HeroSection';
+import { Sidebar, SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
+import SidebarContent from '@/components/sanztech/dashboard/SidebarContent';
+import Header from '@/components/sanztech/dashboard/Header';
 import TemplateShowcase from '@/components/sanztech/TemplateShowcase';
-import AuthorityBuilder from '@/components/sanztech/AuthorityBuilder';
-import Footer from '@/components/sanztech/Footer';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main className="flex-1">
-        <HeroSection />
-        <TemplateShowcase />
-        <AuthorityBuilder />
-      </main>
-      <Footer />
-    </div>
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent />
+      </Sidebar>
+      <SidebarInset>
+        <Header />
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <TemplateShowcase />
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

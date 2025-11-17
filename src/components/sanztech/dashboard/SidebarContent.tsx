@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const menuItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: Home },
+  { href: '/', label: 'Home', icon: Home },
   { href: '/#templates', label: 'Templates', icon: ShoppingCart },
 ];
 
@@ -38,8 +38,8 @@ export default function SidebarContent() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/dashboard/support" passHref>
-              <SidebarMenuButton asChild isActive={pathname === '/dashboard/support'}>
+            <Link href="/support" passHref>
+              <SidebarMenuButton asChild isActive={pathname === '/support'}>
                 <a>
                   <LifeBuoy className="h-5 w-5" />
                   <span>Support</span>
@@ -48,8 +48,8 @@ export default function SidebarContent() {
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/dashboard/settings" passHref>
-              <SidebarMenuButton asChild isActive={pathname === '/dashboard/settings'}>
+            <Link href="/settings" passHref>
+              <SidebarMenuButton asChild isActive={pathname === '/settings'}>
                 <a>
                   <Settings className="h-5 w-5" />
                   <span>Settings</span>
