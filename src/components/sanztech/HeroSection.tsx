@@ -6,10 +6,10 @@ export default function HeroSection() {
     <section className="py-20 md:py-32 bg-secondary/30">
       <div className="container mx-auto text-center">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-primary animate-fade-in-down">
-          STOP Buat Follow-up Manual!
+          STOP Doing Manual Follow-ups!
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
-          Dapatkan Pipedrive FREE, Guna Template kami untuk Profit Segera.
+          Get Pipedrive for FREE, Use Our Templates for Immediate Profit.
         </p>
         <div className="mt-8 flex justify-center items-center space-x-6">
           <div className="flex items-center space-x-1">

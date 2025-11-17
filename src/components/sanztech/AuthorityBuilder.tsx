@@ -15,7 +15,7 @@ export default function AuthorityBuilder() {
         <div className="mt-8">
           <Button asChild size="lg" className="rounded-full">
             <Link href="/my-workflow">
-              Terokai Workflow Kami
+              Explore Our Workflow
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>

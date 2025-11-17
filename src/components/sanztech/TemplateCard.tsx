@@ -49,7 +49,7 @@ export default function TemplateCard({ template }: { template: Template }) {
           Get Mandatory FREE Tool Now
         </Button>
         <Button>
-          Beli Template Ini (Instant Access)
+          Buy This Template (Instant Access)
         </Button>
       </CardFooter>
     </Card>
