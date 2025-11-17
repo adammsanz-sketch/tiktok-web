@@ -26,6 +26,7 @@ export const templates: Template[] = [
       { icon: Zap, text: 'Automated Follow-ups' },
       { icon: Database, text: 'Pipedrive Integrated' },
       { icon: Users, text: 'Client Management' },
+      { icon: Zap, text: 'Smart Clean Smooth' },
     ],
   },
   {
@@ -39,6 +40,7 @@ export const templates: Template[] = [
       { icon: Globe, text: 'Web-based' },
       { icon: Database, text: 'Stock Management' },
       { icon: Zap, text: 'Low Stock Alerts' },
+      { icon: Zap, text: 'Smart Clean Smooth' },
     ],
   },
   {
@@ -52,6 +54,7 @@ export const templates: Template[] = [
       { icon: Smartphone, text: 'iOS & Android' },
       { icon: Users, text: 'Team Collaboration' },
       { icon: Zap, text: 'Push Notifications' },
+      { icon: Zap, text: 'Smart Clean Smooth' },
     ],
   },
     {
@@ -65,6 +68,7 @@ export const templates: Template[] = [
       { icon: Globe, text: 'Multi-platform' },
       { icon: Zap, text: 'Auto-posting' },
       { icon: Users, text: 'Audience Analytics' },
+      { icon: Zap, text: 'Smart Clean Smooth' },
     ],
   },
   {
@@ -78,6 +82,7 @@ export const templates: Template[] = [
       { icon: Smartphone, text: 'Cross-platform' },
       { icon: Database, text: 'Workout Logging' },
       { icon: Users, text: 'Community Features' },
+      { icon: Zap, text: 'Smart Clean Smooth' },
     ],
   },
   {
@@ -91,6 +96,7 @@ export const templates: Template[] = [
       { icon: Globe, text: 'Cloud-based' },
       { icon: Users, text: 'Team Dashboards' },
       { icon: Zap, text: 'Automated Reporting' },
+      { icon: Zap, text: 'Smart Clean Smooth' },
     ],
   },
 ];
