@@ -2,17 +2,18 @@ import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Star } from 'lucide-react';
+import { Star, Edit, Trash2 } from 'lucide-react';
 import type { Template } from '@/lib/templates';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
 
 export default function TemplateCard({ template }: { template: Template }) {
   const image = PlaceHolderImages.find(img => img.id === template.imageId);
+  const isAdmin = true; // Placeholder for admin check
 
   return (
     <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
-      <div className="overflow-hidden">
+      <div className="overflow-hidden relative">
         <Image
           src={image?.imageUrl || ''}
           alt={template.name}
@@ -21,6 +22,16 @@ export default function TemplateCard({ template }: { template: Template }) {
           data-ai-hint={image?.imageHint || 'abstract'}
           className="object-cover w-full h-48 transition-transform duration-300 group-hover:scale-110"
         />
+        {isAdmin && (
+          <div className="absolute top-2 right-2 flex space-x-2">
+            <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full">
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button size="icon" variant="destructive" className="h-8 w-8 rounded-full">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </div>
       <CardHeader>
         <div className="flex justify-between items-start">
