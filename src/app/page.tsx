@@ -45,9 +45,9 @@ export default function BioLinkPage() {
   const { playClick, playHover } = useSound();
 
   const affiliateLinks = [
-    { id: 1, title: '🔥 Affiliate Hub', url: '/tiktok-bio-link/baju-budak', internal: false }, // Assuming external for now
-    { id: 2, title: '⚙️ Sanztech Workflow', url: '/tiktok-bio-link/workflow', internal: false }, // Assuming external for now
-    { id: 3, title: '⚙️ Template Automation', url: '/shop', internal: true }, // Updated to internal /shop link
+    { id: 1, title: '🔥 Affiliate Hub', url: '/affiliate-hub', internal: true },
+    { id: 2, title: '⚙️ Sanztech Workflow', url: '/workflow', internal: true },
+    { id: 3, title: '⚙️ Template Automation', url: '/shop', internal: true },
   ];
 
   const heroAvatarUrl = 'https://storage.googleapis.com/monorepo-source-images/d745582a-4318-4d57-b4d2-f4726e6e22f2_original.png';
