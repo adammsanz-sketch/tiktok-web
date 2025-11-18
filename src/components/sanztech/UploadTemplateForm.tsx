@@ -23,6 +23,10 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import type { Template } from '@/lib/templates';
+import { iconMap } from '@/lib/templates';
+import { useFirebase } from '@/firebase';
+import { addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { collection, doc } from 'firebase/firestore';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -47,6 +51,7 @@ interface UploadTemplateFormProps {
 
 export default function UploadTemplateForm({ onTemplateUploaded, template }: UploadTemplateFormProps) {
   const { toast } = useToast();
+  const { firestore } = useFirebase();
   const isEditMode = !!template;
 
   const form = useForm<UploadTemplateFormValues>({
@@ -58,7 +63,7 @@ export default function UploadTemplateForm({ onTemplateUploaded, template }: Upl
       features: template?.features.map(f => f.text).join(', ') || '',
     },
   });
-  
+
   // Conditionally make image required only when not in edit mode
   if (!isEditMode) {
     formSchema.extend({
@@ -66,23 +71,60 @@ export default function UploadTemplateForm({ onTemplateUploaded, template }: Upl
     })
   }
 
-
-  function onSubmit(values: UploadTemplateFormValues) {
-    console.log(values);
-    if (isEditMode) {
+  async function onSubmit(values: UploadTemplateFormValues) {
+    if (!firestore) {
       toast({
-        title: 'Template Updated!',
-        description: `${values.name} has been successfully updated.`,
+        title: 'Error',
+        description: 'Firestore is not available. Please try again later.',
+        variant: 'destructive',
       });
-    } else {
-      toast({
-        title: 'Template Uploaded!',
-        description: `${values.name} has been successfully uploaded.`,
-      });
+      return;
     }
-    onTemplateUploaded();
+    
+    // For now, we'll assign a random imageId. Later, this could be tied to an upload service.
+    const imageId = template?.imageId || `TPL00${Math.floor(Math.random() * 6) + 1}_image`;
+    
+    const featuresArray = values.features.split(',').map(text => {
+      const randomIconName = Object.keys(iconMap)[Math.floor(Math.random() * Object.keys(iconMap).length)];
+      return { icon: randomIconName, text: text.trim() };
+    });
+
+    const newTemplateData: Omit<Template, 'id'> = {
+      name: values.name,
+      price: values.price,
+      rating: template?.rating || parseFloat((Math.random() * (5 - 4) + 4).toFixed(1)), // Keep existing or generate new rating
+      category: values.category,
+      imageId: imageId,
+      features: featuresArray
+    };
+    
+    try {
+      if (isEditMode && template.id) {
+        const templateRef = doc(firestore, 'templates', template.id);
+        setDocumentNonBlocking(templateRef, newTemplateData, { merge: true });
+        toast({
+          title: 'Template Updated!',
+          description: `${values.name} has been successfully updated.`,
+        });
+      } else {
+        const templatesCollection = collection(firestore, 'templates');
+        await addDocumentNonBlocking(templatesCollection, newTemplateData);
+        toast({
+          title: 'Template Uploaded!',
+          description: `${values.name} has been successfully uploaded.`,
+        });
+      }
+      onTemplateUploaded();
+    } catch (error) {
+       console.error("Error saving template: ", error);
+       toast({
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem saving the template.',
+        variant: 'destructive',
+       });
+    }
   }
-  
+
   const fileRef = form.register('image');
 
   return (

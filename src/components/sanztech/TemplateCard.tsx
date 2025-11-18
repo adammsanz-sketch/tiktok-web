@@ -28,6 +28,9 @@ import UploadTemplateForm from './UploadTemplateForm';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { iconMap } from '@/lib/templates';
+import { useFirebase } from '@/firebase';
+import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { doc } from 'firebase/firestore';
 
 
 export default function TemplateCard({ template }: { template: Template }) {
@@ -35,13 +38,23 @@ export default function TemplateCard({ template }: { template: Template }) {
   const isAdmin = true; // Placeholder for admin check
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { toast } = useToast();
+  const { firestore } = useFirebase();
 
   const handleTemplateUpdated = () => {
     setIsEditDialogOpen(false);
   };
 
   const handleDelete = () => {
-    console.log(`Deleting template: ${template.name}`);
+    if (!firestore) {
+      toast({
+        title: 'Error',
+        description: 'Firestore is not available.',
+        variant: 'destructive'
+      });
+      return;
+    }
+    const templateRef = doc(firestore, 'templates', template.id);
+    deleteDocumentNonBlocking(templateRef);
     toast({
       title: 'Template Deleted!',
       description: `${template.name} has been successfully deleted.`,
@@ -53,7 +66,7 @@ export default function TemplateCard({ template }: { template: Template }) {
     <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
       <div className="overflow-hidden relative">
         <Image
-          src={image?.imageUrl || ''}
+          src={image?.imageUrl || 'https://picsum.photos/seed/placeholder/600/400'}
           alt={template.name}
           width={600}
           height={400}
