@@ -50,7 +50,7 @@ export default function BioLinkPage() {
     { id: 3, title: '⚙️ Template Automation', url: '/shop', internal: true }, // Updated to internal /shop link
   ];
 
-  const heroAvatarUrl = process.env.NEXT_PUBLIC_HERO_AVATAR_URL || 'https://avatars.githubusercontent.com/u/139698838?s=200';
+  const heroAvatarUrl = 'https://storage.googleapis.com/monorepo-source-images/d745582a-4318-4d57-b4d2-f4726e6e22f2_original.png';
 
   return (
     <div className="relative min-h-screen w-full bg-[#0a0e1a] text-white overflow-x-hidden">
