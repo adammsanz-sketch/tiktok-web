@@ -46,7 +46,7 @@ export default function BioLinkPage() {
 
   const affiliateLinks = [
     { id: 1, title: '🔥 Affiliate Hub', url: '/affiliate-hub', internal: true },
-    { id: 2, title: '⚙️ Sanztech Workflow', url: '/workflow', internal: true },
+    { id: 2, title: '⚙️ Sanztech Workflow', url: '/dashboard', internal: true },
     { id: 3, title: '⚙️ Template Automation', url: '/shop', internal: true },
   ];
 
