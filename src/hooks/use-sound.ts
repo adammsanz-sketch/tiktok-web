@@ -13,9 +13,8 @@ export function useSound() {
   }, []);
 
   const playClick = useCallback(() => {
-    // Assuming you will add a click sound file at this path
-    // playSound('/sounds/click.mp3');
-  }, []);
+    playSound('https://storage.googleapis.com/monorepo-source-images/d8c55a5b-010f-4886-b4d2-f67f2b1d5a7b_original.wav');
+  }, [playSound]);
 
   const playHover = useCallback(() => {
     // Assuming you will add a hover sound file at this path
