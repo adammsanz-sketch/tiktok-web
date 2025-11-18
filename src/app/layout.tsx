@@ -4,8 +4,8 @@ import { FirebaseClientProvider } from '@/firebase';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Sanztech Template Vault',
-  description: 'High-quality templates for business automation.',
+  title: 'Sanztech',
+  description: 'Budak KL main otak & AI, bantu orang hidup dari content, bukan sekadar survive.',
 };
 
 export default function RootLayout({
