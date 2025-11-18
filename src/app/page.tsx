@@ -45,7 +45,7 @@ export default function BioLinkPage() {
   const { playClick, playHover } = useSound();
 
   const affiliateLinks = [
-    { id: 1, title: '🔥 Baju Budak Affiliate', url: '/tiktok-bio-link/baju-budak', internal: false }, // Assuming external for now
+    { id: 1, title: '🔥 Affiliate Hub', url: '/tiktok-bio-link/baju-budak', internal: false }, // Assuming external for now
     { id: 2, title: '⚙️ Sanztech Workflow', url: '/tiktok-bio-link/workflow', internal: false }, // Assuming external for now
     { id: 3, title: '⚙️ Template Automation', url: '/shop', internal: true }, // Updated to internal /shop link
   ];
