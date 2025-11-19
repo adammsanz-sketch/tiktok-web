@@ -66,7 +66,7 @@ export default function SidebarContent() {
         <div className="border-t p-2 mt-2">
            <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarImage src="https://picsum.photos/seed/admin/40/40" data-ai-hint="admin avatar" />
+                <AvatarImage src="/adam-profile.jpg.png" data-ai-hint="admin avatar" onError={(e) => { (e.target as HTMLImageElement).src = '/avatar.svg'; }} />
                 <AvatarFallback>A</AvatarFallback>
               </Avatar>
               <div className="group-data-[collapsible=icon]:hidden">

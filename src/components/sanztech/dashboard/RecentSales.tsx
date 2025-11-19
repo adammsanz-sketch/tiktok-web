@@ -19,23 +19,29 @@ export default function RecentSales({ sales }: RecentSalesProps) {
     <Card>
       <CardHeader>
         <CardTitle>Recent Sales</CardTitle>
-        <CardDescription>You made 265 sales this month.</CardDescription>
+        <CardDescription>
+          {sales.length === 0 ? 'No recent sales yet.' : 'Latest transactions.'}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-8">
-          {sales.map((sale, index) => (
-            <div key={index} className="flex items-center">
-              <Avatar className="h-9 w-9">
-                <AvatarImage src={sale.avatar} alt="Avatar" data-ai-hint={sale.imageHint} />
-                <AvatarFallback>{sale.avatarFallback}</AvatarFallback>
-              </Avatar>
-              <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">{sale.name}</p>
-                <p className="text-sm text-muted-foreground">{sale.email}</p>
+          {sales.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Data will appear when available.</p>
+          ) : (
+            sales.map((sale, index) => (
+              <div key={index} className="flex items-center">
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src={sale.avatar} alt="Avatar" data-ai-hint={sale.imageHint} />
+                  <AvatarFallback>{sale.avatarFallback}</AvatarFallback>
+                </Avatar>
+                <div className="ml-4 space-y-1">
+                  <p className="text-sm font-medium leading-none">{sale.name}</p>
+                  <p className="text-sm text-muted-foreground">{sale.email}</p>
+                </div>
+                <div className="ml-auto font-medium">{sale.amount}</div>
               </div>
-              <div className="ml-auto font-medium">{sale.amount}</div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </CardContent>
     </Card>

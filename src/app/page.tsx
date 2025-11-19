@@ -3,36 +3,35 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Video, Sparkles, Mail, Phone } from 'lucide-react';
 import { useSound } from '../hooks/use-sound';
 
 // A client component to render the moving sparkles to avoid SSR issues with window
 function SparkleParticles() {
   const [isClient, setIsClient] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     setIsClient(true);
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch = navigator.maxTouchPoints > 0;
+    setCount(prefersReduced ? 0 : isTouch ? 8 : 16);
   }, []);
 
-  if (!isClient) {
+  if (!isClient || count === 0) {
     return null;
   }
 
   return (
     <>
-      {[...Array(20)].map((_, i) => (
+      {Array.from({ length: count }).map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 bg-yellow-500/10 rounded-full"
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-          }}
-          animate={{
-            y: [null, Math.random() * window.innerHeight],
-            x: [null, Math.random() * window.innerWidth],
-          }}
-          transition={{ duration: 10 + Math.random() * 20, repeat: Infinity, ease: 'linear' }}
+          initial={{ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight }}
+          animate={{ y: [null, Math.random() * window.innerHeight], x: [null, Math.random() * window.innerWidth] }}
+          transition={{ duration: 12 + Math.random() * 12, repeat: Infinity, ease: 'linear' }}
         />
       ))}
     </>
@@ -43,6 +42,10 @@ function SparkleParticles() {
 export default function BioLinkPage() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const { playClick, playHover } = useSound();
+  const [canHover, setCanHover] = useState(false);
+  useEffect(() => {
+    setCanHover(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+  }, []);
 
   const affiliateLinks = [
     { id: 1, title: '🔥 Affiliate Hub', url: '/affiliate-hub', internal: true },
@@ -50,7 +53,7 @@ export default function BioLinkPage() {
     { id: 3, title: '⚙️ Template Automation', url: '/shop', internal: true },
   ];
 
-  const heroAvatarUrl = 'https://storage.googleapis.com/monorepo-source-images/d745582a-4318-4d57-b4d2-f4726e6e22f2_original.png';
+  const heroAvatarUrl = '/adam-profile.jpg.png';
 
   return (
     <div className="relative min-h-screen w-full bg-[#0a0e1a] text-white overflow-x-hidden">
@@ -84,11 +87,16 @@ export default function BioLinkPage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center mb-6"
           >
-            <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-[hsl(var(--gold))] shadow-[0_0_30px_hsl(var(--gold))] overflow-hidden mb-3">
-              <img
+            <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-[hsl(var(--gold))] overflow-hidden mb-3">
+              <Image
                 src={heroAvatarUrl}
                 alt="Adamsanz"
+                width={128}
+                height={128}
                 className="w-full h-full object-cover"
+                unoptimized
+                onError={(e) => { (e.target as HTMLImageElement).src = '/avatar.svg'; }}
+                priority
               />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold">Adamsanz</h2>
@@ -105,7 +113,7 @@ export default function BioLinkPage() {
                   <Link
                     href={link.url}
                     className="block w-full px-6 py-4 bg-gray-900/50 hover:bg-gray-800/50 backdrop-blur-sm border border-gray-800 hover:border-[hsl(var(--gold))] rounded-xl text-center font-semibold"
-                    onMouseEnter={soundEnabled ? playHover : undefined}
+                    onMouseEnter={soundEnabled && canHover ? playHover : undefined}
                     onClick={soundEnabled ? playClick : undefined}
                   >
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>{link.title}</motion.div>
@@ -116,7 +124,7 @@ export default function BioLinkPage() {
                     target="_blank"
                     rel="noreferrer"
                     className="block w-full px-6 py-4 bg-gray-900/50 hover:bg-gray-800/50 backdrop-blur-sm border border-gray-800 hover:border-[hsl(var(--gold))] rounded-xl text-center font-semibold"
-                    onMouseEnter={soundEnabled ? playHover : undefined}
+                    onMouseEnter={soundEnabled && canHover ? playHover : undefined}
                     onClick={soundEnabled ? playClick : undefined}
                   >
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>{link.title}</motion.div>

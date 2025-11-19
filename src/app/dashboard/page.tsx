@@ -20,23 +20,23 @@ export default function DashboardPage() {
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             <StatCard
               title="Total Sales"
-              value="$45,231.89"
+              value="—"
               icon={DollarSign}
-              trend="+20.1% from last month"
+              trend="—"
               trendDirection="up"
             />
             <StatCard
               title="New Customers"
-              value="+2350"
+              value="—"
               icon={Users}
-              trend="+180.1% from last month"
+              trend="—"
               trendDirection="up"
             />
             <StatCard
               title="Store Visits"
-              value="12,402"
+              value="—"
               icon={Store}
-              trend="+19% from last month"
+              trend="—"
               trendDirection="down"
             />
           </div>
