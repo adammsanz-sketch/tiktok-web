@@ -22,7 +22,7 @@ export default function Header() {
         <span className="sr-only">Toggle notifications</span>
       </Button>
       <Avatar>
-        <AvatarImage src="/adam-profile.jpg" data-ai-hint="user avatar" onError={(e) => { (e.target as HTMLImageElement).src = '/avatar.svg'; }} />
+        <AvatarImage src="/adam-profile.jpg.png" data-ai-hint="user avatar" onError={(e) => { (e.target as HTMLImageElement).src = '/avatar.svg'; }} />
         <AvatarFallback>U</AvatarFallback>
       </Avatar>
     </header>

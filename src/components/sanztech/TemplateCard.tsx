@@ -27,10 +27,12 @@ import {
 import UploadTemplateForm from './UploadTemplateForm';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { useSound } from '@/hooks/use-sound';
 import { iconMap } from '@/lib/templates';
 import { useFirebase } from '@/firebase';
 import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { doc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 
 export default function TemplateCard({ template }: { template: Template }) {
@@ -38,7 +40,10 @@ export default function TemplateCard({ template }: { template: Template }) {
   const isAdmin = true; // Placeholder for admin check
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { toast } = useToast();
+  const { playSuccess, playError } = useSound();
   const { firestore } = useFirebase();
+  const router = useRouter();
+  const [buying, setBuying] = useState(false);
 
   const handleTemplateUpdated = () => {
     setIsEditDialogOpen(false);
@@ -138,10 +143,65 @@ export default function TemplateCard({ template }: { template: Template }) {
          <div className="text-2xl font-bold text-primary self-center">
           ${template.price}
         </div>
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/affiliate-hub')}
+        >
           Get Mandatory FREE Tool Now
         </Button>
-        <Button>
+        <Button
+          disabled={buying}
+          onClick={async () => {
+            try {
+              setBuying(true);
+              if (template.checkoutUrl) {
+                toast({ title: 'Redirecting to Stripe', description: 'Secure checkout' });
+                window.location.href = template.checkoutUrl;
+                return;
+              }
+              toast({ title: 'Processing purchase', description: 'Please wait…' });
+              const resp = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  sku: template.id,
+                  successUrl: `${window.location.origin}/shop?affiliate_success=true`,
+                  cancelUrl: `${window.location.origin}/shop?payment=cancel`,
+                }),
+              });
+              const data = await resp.json().catch(() => ({}));
+              if (resp.ok && data?.url) {
+                window.location.href = data.url;
+                return;
+              }
+              const fallback = await fetch('/api/webhook?secret=dev', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  secret: 'dev',
+                  eventType: 'payment_succeeded',
+                  orderId: `${template.id}-${Date.now()}`,
+                  customer: {},
+                  items: [{ sku: template.id, name: template.name }],
+                  amount: template.price,
+                  currency: 'MYR',
+                }),
+              });
+              if (fallback.ok) {
+                toast({ title: 'Purchase confirmed', description: 'Automation will deliver your template.' });
+                try { playSuccess(); } catch {}
+              } else {
+                toast({ title: 'Purchase failed', description: String(data?.error || 'Unexpected error') });
+                try { playError(); } catch {}
+              }
+            } catch (e: any) {
+              toast({ title: 'Error', description: String(e?.message || e) });
+              try { playError(); } catch {}
+            } finally {
+              setBuying(false);
+            }
+          }}
+        >
           Buy This Template (Instant Access)
         </Button>
       </CardFooter>

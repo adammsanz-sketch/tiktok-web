@@ -40,17 +40,33 @@ function SparkleParticles() {
 
 
 export default function BioLinkPage() {
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
   const { playClick, playHover } = useSound();
   const [canHover, setCanHover] = useState(false);
   useEffect(() => {
     setCanHover(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
   }, []);
 
+  useEffect(() => {
+    try {
+      const saved = typeof window !== 'undefined' ? localStorage.getItem('soundEnabled') : null;
+      if (saved !== null) {
+        setSoundEnabled(saved === 'true');
+      } else {
+        if (typeof window !== 'undefined') localStorage.setItem('soundEnabled', 'true');
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined') localStorage.setItem('soundEnabled', String(soundEnabled));
+    } catch {}
+  }, [soundEnabled]);
+
   const affiliateLinks = [
-    { id: 1, title: '🔥 Affiliate Hub', url: '/affiliate-hub', internal: true },
-    { id: 2, title: '⚙️ Sanztech Workflow', url: '/dashboard', internal: true },
-    { id: 3, title: '⚙️ Template Automation', url: '/shop', internal: true },
+    { id: 5, title: 'Automation Tool Affiliate', url: '/maya-agent', internal: true },
+    { id: 6, title: 'Netflix Murah', url: 'https://n.sanztech.online/', internal: false },
   ];
 
   const heroAvatarUrl = '/adam-profile.jpg.png';
@@ -112,6 +128,7 @@ export default function BioLinkPage() {
                 {link.internal ? (
                   <Link
                     href={link.url}
+                    prefetch={false}
                     className="block w-full px-6 py-4 bg-gray-900/50 hover:bg-gray-800/50 backdrop-blur-sm border border-gray-800 hover:border-[hsl(var(--gold))] rounded-xl text-center font-semibold"
                     onMouseEnter={soundEnabled && canHover ? playHover : undefined}
                     onClick={soundEnabled ? playClick : undefined}

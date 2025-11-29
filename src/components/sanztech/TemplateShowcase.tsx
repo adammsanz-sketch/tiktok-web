@@ -29,8 +29,26 @@ export default function TemplateShowcase() {
   );
   const { data: templates, isLoading } = useCollection<Template>(templatesCollection);
 
+  const demoTemplates: Template[] = [
+    {
+      id: 'TPL_DEMO_001',
+      name: 'Demo Workflow Template',
+      price: 49,
+      rating: 5,
+      category: 'Web App',
+      imageId: 'TPL001_image',
+      checkoutUrl: 'https://buy.stripe.com/eVq4gAe8k7Yq3U3fNn04800',
+      features: [
+        { icon: 'Zap', text: 'Instant automation setup' },
+        { icon: 'Database', text: 'Firestore integration example' },
+        { icon: 'Users', text: 'Role-based flows' },
+      ],
+    },
+  ];
 
-  const filteredTemplates = templates?.filter(template => {
+  const sourceTemplates = (templates && templates.length > 0) ? templates : demoTemplates;
+
+  const filteredTemplates = sourceTemplates?.filter(template => {
     if (filter === 'All') return true;
     return template.category === filter;
   });

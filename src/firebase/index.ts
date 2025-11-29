@@ -3,7 +3,7 @@
 import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, setLogLevel } from 'firebase/firestore'
 
 // IMPORTANT: DO NOT MODIFY THIS FUNCTION
 export function initializeFirebase() {
@@ -25,7 +25,9 @@ export function initializeFirebase() {
       firebaseApp = initializeApp(firebaseConfig);
     }
 
-    return getSdks(firebaseApp);
+    const sdks = getSdks(firebaseApp);
+    try { setLogLevel('silent'); } catch {}
+    return sdks;
   }
 
   // If already initialized, return the SDKs with the already initialized App

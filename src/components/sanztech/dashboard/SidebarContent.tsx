@@ -29,7 +29,7 @@ export default function SidebarContent() {
       <SidebarMenu>
         {menuItems.map(item => (
           <SidebarMenuItem key={item.label}>
-            <Link href={item.href} passHref>
+            <Link href={item.href} passHref prefetch={false}>
               <SidebarMenuButton asChild isActive={pathname === item.href} tooltip={item.label}>
                 <span>
                   <item.icon className="h-5 w-5" />
@@ -43,7 +43,7 @@ export default function SidebarContent() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/support" passHref>
+            <Link href="/support" passHref prefetch={false}>
               <SidebarMenuButton asChild isActive={pathname === '/support'} tooltip="Support">
                 <span>
                   <LifeBuoy className="h-5 w-5" />
@@ -53,7 +53,7 @@ export default function SidebarContent() {
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/settings" passHref>
+            <Link href="/settings" passHref prefetch={false}>
               <SidebarMenuButton asChild isActive={pathname === '/settings'} tooltip="Settings">
                 <span>
                   <Settings className="h-5 w-5" />

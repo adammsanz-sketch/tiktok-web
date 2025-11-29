@@ -8,6 +8,7 @@ export type Template = {
   rating: number;
   category: 'Web App' | 'Mobile';
   imageId: string;
+  checkoutUrl?: string;
   features: {
     icon: string; // Storing icon name as string
     text: string;
