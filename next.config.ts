@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  env: {
+    NEXT_TELEMETRY_DISABLED: '1',
+  },
   images: {
     remotePatterns: [
       {
@@ -29,6 +32,15 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/maya-agent',
+        destination: '/automation-ai.html',
+        permanent: true,
+      },
+    ];
   },
 };
 
