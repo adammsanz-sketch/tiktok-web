@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adamsanz | Automation & AI Workflow</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text-main: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --accent: #00ff41; /* Industrial Green */
+            --accent-dim: #00330d;
+            --error: #ef4444;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Industrial UI Elements */
+        .grid-line {
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: -1px;
+            margin-right: -1px;
+        }
+
+        .label-mono {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        /* Hero Section */
+        header {
+            padding-top: 80px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 24px;
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 32px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        /* Problem Section */
+        .section-padding {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .problem-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--error);
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Services */
+        .service-card {
+            border: 1px solid var(--border);
+            padding: 32px;
+            transition: border-color 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--text-muted);
+        }
+
+        /* Workflow Steps */
+        .step-num {
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        /* Comparison Section */
+        .comp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .comp-box {
+            padding: 40px;
+        }
+
+        .comp-box.suitable { border-right: 1px solid var(--border); }
+        .comp-box.not-suitable { opacity: 0.6; }
+
+        .list-item {
+            margin-bottom: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Form State UI */
+        #contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        input, textarea {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 12px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            outline: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: 12px;
+            font-family: var(--font-mono);
+            display: none;
+        }
+
+        #form-status {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--accent);
+            background: var(--accent-dim);
+            color: var(--accent);
+            font-family: var(--font-mono);
+            margin-top: 20px;
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .comp-grid { grid-template-columns: 1fr; }
+            .comp-box.suitable { border-right: none; border-bottom: 1px solid var(--border); }
+            .hero-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <span class="label-mono">Adamsanz // Industrial Automation</span>
+            <h1 class="hero-title">Setup AI. <br>Biar Sistem Kerja, <br>Kau Rehat.</h1>
+            <p class="hero-sub">Aku bukan nak jual mimpi kaya cepat. Aku cuma nak tolong kau automate kerja leceh biar kau ada masa untuk diri sendiri & family.</p>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <button onclick="scrollToSection('contact')" class="btn btn-primary">Bincang Project</button>
+                <button onclick="scrollToSection('services')" class="btn">Tengok Servis</button>
+                <button onclick="chooseServiceAndScroll('workflow')" class="btn">Automation AI</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container">
+            <span class="label-mono">01. Realiti Pahit</span>
+            <div class="grid-2">
+                <div class="grid-line problem-item">
+                    <div class="status-dot"></div>
+                    <p>Penat reply DM/WhatsApp yang sama beratus kali setiap hari.</p>
+                </div>
+                <div class="grid-line problem-item">
+                    <div class="status-dot"></div>
+                    <p>Link affiliate bersepah, susah nak track, rugi komisyen.</p>
+                </div>
+                <div class="grid-line problem-item">
+                    <div class="status-dot"></div>
+                    <p>Balik kerja 9-6, sambung buat kerja manual sampai tengah malam.</p>
+                </div>
+                <div class="grid-line problem-item">
+                    <div class="status-dot"></div>
+                    <p>Business stuck sebab kau sibuk buat kerja "kerani" bukannya strategy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section-padding">
+        <div class="container">
+            <span class="label-mono">02. Apa Aku Buat</span>
+            <div class="grid-2" style="margin-top: 32px;">
+                <div class="service-card">
+                    <h3 style="margin-bottom: 16px;">AI Auto-Reply</h3>
+                    <p class="text-muted">Bot WhatsApp/Telegram yang jawab macam manusia. Tak perlu kau pegang phone 24/7.</p>
+                </div>
+                <div class="service-card">
+                    <h3 style="margin-bottom: 16px;">Affiliate Engine</h3>
+                    <p class="text-muted">Sistem auto-manage link affiliate. Orang tanya, bot hantar link. Kau kutip komisyen je.</p>
+                </div>
+                <div class="service-card">
+                    <h3 style="margin-bottom: 16px;">Workflow Automation</h3>
+                    <p class="text-muted">Sambungkan apps yang kau guna (Google Sheets, Email, CRM) supaya data masuk sendiri.</p>
+                </div>
+                <div class="service-card">
+                    <h3 style="margin-bottom: 16px;">Custom AI Solution</h3>
+                    <p class="text-muted">Kau ada idea nak mudahkan kerja? Aku build sistem yang fit untuk business kau.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <span class="label-mono">03. Cara Kerja</span>
+            <div class="grid-2" style="margin-top: 32px; gap: 40px;">
+                <div>
+                    <div class="step-num">STEP_01</div>
+                    <h4>Briefing</h4>
+                    <p class="text-muted">Kita bincang apa masalah kau nak solve. Tak perlu guna term tech tinggi-tinggi.</p>
+                </div>
+                <div>
+                    <div class="step-num">STEP_02</div>
+                    <h4>Deployment</h4>
+                    <p class="text-muted">Aku setup sistem dalam 3-7 hari (ikut complexity). Kau just monitor.</p>
+                </div>
+                <div>
+                    <div class="step-num">STEP_03</div>
+                    <h4>Optimization</h4>
+                    <p class="text-muted">Kita test. Kalau ada sangkut, aku adjust sampai smooth.</p>
+                </div>
+                <div>
+                    <div class="step-num">STEP_04</div>
+                    <h4>Handover</h4>
+                    <p class="text-muted">Sistem jalan sendiri. Kau dah boleh fokus benda lain.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <span class="label-mono">04. Filter</span>
+            <div class="comp-grid">
+                <div class="comp-box suitable">
+                    <h3 style="margin-bottom: 24px; color: var(--accent);">Ngam Kalau Kau:</h3>
+                    <div class="list-item"><span>[+]</span> Penat buat kerja berulang.</div>
+                    <div class="list-item"><span>[+]</span> Nak sistem yang simple tapi function.</div>
+                    <div class="list-item"><span>[+]</span> Hormat masa & faham value automation.</div>
+                </div>
+                <div class="comp-box not-suitable">
+                    <h3 style="margin-bottom: 24px;">Tak Ngam Kalau:</h3>
+                    <div class="list-item"><span>[-]</span> Nak sistem "Magic" yang buat kau kaya esok.</div>
+                    <div class="list-item"><span>[-]</span> Nak AI paling canggih tapi bajet RM50.</div>
+                    <div class="list-item"><span>[-]</span> Suka buat semua benda manual sampai bila-bila.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="background: #0f0f0f;">
+        <div class="container">
+            <div style="max-width: 600px;">
+                <span class="label-mono">05. Kenapa Adamsanz?</span>
+                <h2 style="margin: 20px 0;">Aku bukan agensi besar yang charge ribu-ribu tanpa result.</h2>
+                <p class="text-muted">Aku orang biasa yang faham struggle orang kerja & peniaga kecil. Aku takkan bagi sistem yang kau tak faham guna. Aku build apa yang perlu je. Straight forward.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <span class="label-mono">06. Contact</span>
+            <h2 style="margin-bottom: 32px;">Nak bincang dulu?</h2>
+            
+            <form id="contact-form">
+                <div class="input-group">
+                    <label class="label-mono" style="color: var(--text-muted)">Nama</label>
+                    <input type="text" id="name" placeholder="Nama kau">
+                    <span class="error-msg" id="name-error">Tolong isi nama.</span>
+                </div>
+                <div class="input-group">
+                    <label class="label-mono" style="color: var(--text-muted)">Servis Yang Berminat</label>
+                    <select id="service-select" style="background: var(--surface); border: 1px solid var(--border); padding: 12px; color: var(--text-main);">
+                        <option value="auto-reply">WhatsApp/AI Auto-Reply</option>
+                        <option value="affiliate">Sistem Affiliate</option>
+                        <option value="workflow">Workflow Automation</option>
+                        <option value="other">Lain-lain</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="label-mono" style="color: var(--text-muted)">Mesej Ringkas</label>
+                    <textarea id="message" rows="4" placeholder="Bagitau sikit masalah workflow kau..."></textarea>
+                    <span class="error-msg" id="message-error">Cerita la sikit baru aku faham.</span>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit-btn">Hantar Message</button>
+            </form>
+
+            <div id="form-status">
+                [SUCCESS]: Data diterima. Aku akan contact kau balik dalam masa 24 jam.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            ADAMSANZ // AI & AUTOMATION // 2024
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function chooseServiceAndScroll(service) {
+            const select = document.getElementById('service-select');
+            if (select) select.value = service;
+            scrollToSection('contact');
+        }
+
+        // Form Logic
+        const form = document.getElementById('contact-form');
+        const statusBox = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset errors
+            document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+            
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            let hasError = false;
+
+            if (name.trim() === "") {
+                document.getElementById('name-error').style.display = 'block';
+                hasError = true;
+            }
+
+            if (message.trim() === "") {
+                document.getElementById('message-error').style.display = 'block';
+                hasError = true;
+            }
+
+            if (!hasError) {
+                // Reactive State Simulation
+                submitBtn.innerText = "SENG KEJAP...";
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = "0.5";
+
+                setTimeout(() => {
+                    form.style.display = 'none';
+                    statusBox.style.display = 'block';
+                }, 1500);
+            }
+        });
+
+        // Simple Parallax / Hover Effect for Service Cards
+        const cards = document.querySelectorAll('.service-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+                card.style.boxShadow = '0 10px 30px -10px rgba(0,255,65,0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

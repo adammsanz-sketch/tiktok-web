@@ -65,8 +65,8 @@ export default function BioLinkPage() {
   }, [soundEnabled]);
 
   const affiliateLinks = [
-    { id: 5, title: 'Automation Tool Affiliate', url: '/maya-agent', internal: true },
     { id: 6, title: 'Netflix Murah', url: 'https://n.sanztech.online/', internal: false },
+    { id: 7, title: 'Automation AI', url: '/automation-ai.html', internal: true },
   ];
 
   const heroAvatarUrl = '/adam-profile.jpg.png';

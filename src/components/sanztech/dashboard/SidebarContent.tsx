@@ -1,6 +1,6 @@
 'use client';
 import { SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarTrigger } from '@/components/ui/sidebar';
-import { Gem, Home, ShoppingCart, Users, BarChart2, Settings, LifeBuoy, Bot } from 'lucide-react';
+import { Gem, Home, ShoppingCart, Users, BarChart2, Settings, LifeBuoy } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -8,7 +8,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/dashboard', label: 'Dashboard', icon: BarChart2 },
-  { href: '/maya-agent', label: 'Maya Agent', icon: Bot },
   { href: '/shop', label: 'Templates', icon: ShoppingCart },
 ];
 
