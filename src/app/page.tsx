@@ -165,9 +165,9 @@ export default function BioLinkPage() {
           <div className="p-6 bg-gray-900/40 rounded-xl border border-gray-800">
             <Phone className="w-6 h-6 text-[hsl(var(--gold))] mb-2" />
             <h3 className="text-xl font-semibold mb-1">WhatsApp</h3>
-            <p className="text-gray-400">+60 11-6396 9241</p>
+            <p className="text-gray-400">+60 11-1105 0407</p>
             <a
-              href="https://wa.me/601163969241?text=Hi%20Sanztech%2C%20saya%20berminat%20tentang%20automation."
+              href="https://wa.me/601111050407?text=Hi%20Adamsanz%2C%20saya%20berminat%20tentang%20Clawdbot."
               target="_blank"
               rel="noreferrer"
               className="mt-3 inline-block px-4 py-2 rounded bg-[hsl(var(--gold))] text-black font-semibold"
