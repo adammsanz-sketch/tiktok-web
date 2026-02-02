@@ -55,18 +55,17 @@ export default function BioLinkPage() {
       } else {
         if (typeof window !== 'undefined') localStorage.setItem('soundEnabled', 'true');
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
     try {
       if (typeof window !== 'undefined') localStorage.setItem('soundEnabled', String(soundEnabled));
-    } catch {}
+    } catch { }
   }, [soundEnabled]);
 
   const affiliateLinks = [
-    { id: 6, title: 'Netflix Murah', url: 'https://n.sanztech.online/', internal: false },
-    { id: 7, title: 'Automation AI', url: '/automation-ai.html', internal: true },
+    { id: 7, title: 'Rahsia Clawdbot', url: '/automation-ai.html', internal: true },
   ];
 
   const heroAvatarUrl = '/adam-profile.jpg.png';
@@ -119,7 +118,7 @@ export default function BioLinkPage() {
             <p className="text-yellow-400 text-sm md:text-base">Mind Hustler of KL</p>
           </motion.div>
 
-          <motion.p className="text-gray-300 max-w-2xl mx-auto mb-8" initial={{opacity:0,y:20}} animate={{opacity:1,y:0}}>
+          <motion.p className="text-gray-300 max-w-2xl mx-auto mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             Budak KL main otak & AI, bantu orang hidup dari content, bukan sekadar survive.
           </motion.p>
           <div className="w-full max-w-sm mx-auto flex flex-col gap-3">
